@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add a Naked Connect system",
+        "description": "Connects your Naked system to Home Assistant. The device ID is the 12-character ID shown in the Naked Connect app. Add the integration once for each system. Enter the username and password supplied by Naked. Leave the backend host as it is.",
+        "data": {
+          "device_id": "Device ID",
+          "host": "Backend host",
+          "username": "Username",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach the Naked Connect cloud.",
+      "invalid_auth": "Login was rejected. Check the username and password.",
+      "unknown": "Unexpected error. Check the Home Assistant log."
+    },
+    "abort": {
+      "already_configured": "This device is already set up."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Naked Connect options",
+        "data": {
+          "scan_interval": "Polling interval (seconds)",
+          "show_panel": "Show Naked Connect in the sidebar"
+        },
+        "description": "Polling interval and whether the Naked Connect page appears in the Home Assistant sidebar."
+      }
+    }
+  }
+}

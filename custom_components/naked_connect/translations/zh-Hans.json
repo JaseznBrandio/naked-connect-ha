@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "添加 Naked Connect 系统",
+        "description": "将您的 Naked 系统连接到 Home Assistant。设备 ID 是 Naked Connect 应用中显示的 12 位编号。每个系统需分别添加一次此集成。请输入 Naked 提供的用户名和密码。后端服务器地址请保持不变。",
+        "data": {
+          "device_id": "设备 ID",
+          "host": "后端服务器地址",
+          "username": "用户名",
+          "password": "密码"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "无法连接到 Naked Connect 云平台。",
+      "invalid_auth": "登录被拒绝，请检查用户名和密码。",
+      "unknown": "发生意外错误，请查看 Home Assistant 日志。"
+    },
+    "abort": {
+      "already_configured": "该设备已设置。"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Naked Connect 选项",
+        "description": "轮询间隔，以及是否在 Home Assistant 侧边栏中显示 Naked Connect 页面。",
+        "data": {
+          "scan_interval": "轮询间隔（秒）",
+          "show_panel": "在侧边栏中显示 Naked Connect"
+        }
+      }
+    }
+  }
+}

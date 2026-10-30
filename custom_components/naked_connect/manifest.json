@@ -1,0 +1,20 @@
+{
+  "domain": "naked_connect",
+  "name": "Naked Connect",
+  "codeowners": [
+    "@JaseznBrandio"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "frontend",
+    "http",
+    "panel_custom",
+    "websocket_api"
+  ],
+  "documentation": "https://github.com/JaseznBrandio/naked-connect-ha",
+  "integration_type": "device",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/JaseznBrandio/naked-connect-ha/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

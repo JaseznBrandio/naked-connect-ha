@@ -38,6 +38,7 @@ TRIGGER_WAIT = 3  # seconds for the hub to answer a full-report request
 DEFAULT_BOOST_HOURS = 8
 DEFAULT_PH_AMOUNT = 100  # ml, pH demand/prime amount sent with Start
 SALT_TEST_SETTLE = 8  # seconds without readings that mark the end of a salt test
+SALT_TEST_MAX = 180  # no salt test runs longer than this
 PENDING_HOLD = 20  # seconds to keep showing a change the unit hasn't confirmed yet
 # Settings the chlorinator doesn't (reliably) report back after a change; their
 # current value is taken from the cloud's record of writes when that is newer.
@@ -290,6 +291,7 @@ class NakedCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         props = self._apply_pending(self._raw)
         if "OutputSetPoint" in props:
             props = self._inject_boost(props)
+            props = self._settle_salt_mode(props)
         self._pick_interval(props)
         return {"properties": props, "sockets": self._apply_socket_holds()}
 
@@ -344,6 +346,26 @@ class NakedCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                         item["numberValue"] = value
                     props[key] = item
         return props
+
+    def _settle_salt_mode(self, props: dict[str, Any]) -> dict[str, Any]:
+        """Clear a salt test mode the unit left behind.
+
+        Some units report "salt test" when a test starts but never report the
+        end, so the cloud keeps showing it. It's over once a result has come in
+        since then, or once it's older than any test could run.
+        """
+        item = props.get("SpecMode") or {}
+        if str(item.get("value", "")).strip() != "3" or self._salt_session:
+            return props
+        try:
+            since = float(item.get("timestamp"))
+        except (TypeError, ValueError):
+            since = None
+        done = self._salt_test is not None and (since is None or since <= self._salt_test["ts"])
+        stale = since is not None and time.time() * 1000 - since > SALT_TEST_MAX * 1000
+        if not (done or stale):
+            return props
+        return {**props, "SpecMode": {**item, "value": 0, "numberValue": 0}}
 
     def _with_salt_test(self, props: dict[str, Any]) -> dict[str, Any]:
         """Add the last salt test result and its verdict as readings."""

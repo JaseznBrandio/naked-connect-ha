@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- Fixed: the salt reading went back to "Testing…" a while after a test. The unit never reports the end of a test, so Home Assistant now treats the test as finished once its result is in (or after 3 minutes).
+
 ## 0.1.0
 
 First release.

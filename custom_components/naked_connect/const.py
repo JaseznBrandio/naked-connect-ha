@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 DOMAIN = "naked_connect"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 # JetLinks backend the Naked Connect app talks to.
 DEFAULT_HOST = "http://47.236.42.212:8850"
